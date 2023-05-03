@@ -1,6 +1,6 @@
 {
   "name": "umami-react-client",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Umami react friendly client",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
@@ -15,7 +15,7 @@
     "clean": "rimraf lib synergy-client-*.tgz",
     "watch": "rollup -cw"
   },
-  "keywords": [],
+  "keywords": ["umami", "react", "hooks"],
   "author": "Mark Gregg <gregg.mark@gmail.com> (https://github.com/markgregg)",
   "license": "MIT",
   "peerDependencies": {
