@@ -23,22 +23,21 @@ interface UmamiBody  {
 }
 
 let umamiUrl: string;
-
-export const registerUmami = (url: string) => {
+let websiteId: string;
+export const registerUmami = (url: string, websiteId: string) => {
   umamiUrl = url.charAt(url.length-1) === '/' 
     ? url + 'api/send'
     : url + '/api/send';
+  websiteId = websiteId;
 }
 
 export type Track = (name: string, data?: any) => void;
 
 export const useUmami2 = (
-  websiteId: string,
   disabledPageView?: boolean,
   disableAll?: boolean
 ): Track => {
   return useUmami(
-    websiteId, 
     undefined,
     undefined,
     undefined,
@@ -50,7 +49,6 @@ export const useUmami2 = (
 }
 
 const useUmami = (
-  websiteId: string,
   url?: string,
   title?: string,
   hostname?: string, 
