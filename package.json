@@ -1,6 +1,6 @@
 {
   "name": "umami-react-client",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Umami react friendly client",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
