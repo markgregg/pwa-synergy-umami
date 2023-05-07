@@ -1,7 +1,7 @@
 {
-  "name": "umami-react-client",
-  "version": "0.0.3",
-  "description": "Umami react friendly client",
+  "name": "pwa-synergy-umami",
+  "version": "0.0.1",
+  "description": "Umami react friendly client - part of synergy suite",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
   "types": "./lib/esm/index.d.ts",
@@ -15,7 +15,7 @@
     "clean": "rimraf lib synergy-client-*.tgz",
     "watch": "rollup -cw"
   },
-  "keywords": ["umami", "react", "hooks"],
+  "keywords": ["umami", "react", "pwa", "synergy"],
   "author": "Mark Gregg <gregg.mark@gmail.com> (https://github.com/markgregg)",
   "license": "MIT",
   "peerDependencies": {
