@@ -1,64 +1,59 @@
-import { useMemo } from "react";
+import { useMemo } from 'react'
 
 type UmamiBasePayload = {
-  hostname: string;
-  language: string;
-  screen: string;
-  website: string;
-  url?: string;  
-  referrer?: string;
-  title?: string;
+  hostname: string
+  language: string
+  screen: string
+  website: string
+  url?: string
+  referrer?: string
+  title?: string
 }
 
 type UmamiParameters = {
-  name?: string;
-  data?: any;
-};
-
-type UmamiPayload = UmamiBasePayload & UmamiParameters;
-
-interface UmamiBody  {
-  payload: UmamiPayload;
-  type: "event";
+  name?: string
+  /* eslint-disable  @typescript-eslint/no-explicit-any */
+  data?: any
 }
 
-let umamiUrl: string;
-let websiteId: string;
-export const registerUmami = (url: string, websiteId: string) => {
-  umamiUrl = url.charAt(url.length-1) === '/' 
-    ? url + 'api/send'
-    : url + '/api/send';
-  websiteId = websiteId;
+type UmamiPayload = UmamiBasePayload & UmamiParameters
+
+interface UmamiBody {
+  payload: UmamiPayload
+  type: 'event'
 }
 
-export type Track = (name: string, data?: any) => void;
-
-export const useUmami2 = (
-  disabledPageView?: boolean,
-  disableAll?: boolean
-): Track => {
-  return useUmami(
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    disabledPageView,
-    disableAll );
+let umamiUrl: string
+let websiteId: string
+export const registerUmami = (url: string, currentWebsiteId: string) => {
+  umamiUrl =
+    url.charAt(url.length - 1) === '/' ? url + 'api/send' : url + '/api/send'
+  websiteId = currentWebsiteId
 }
 
-const useUmami = (
-  url?: string,
-  title?: string,
-  hostname?: string, 
-  referrer?: string,
-  width?: number,
-  height?: number,
-  disabledPageView?: boolean,
-  disableAll?: boolean
-): Track => {
-  const payload = useMemo<UmamiBasePayload>( () => {
+export interface UmamiOptions {
+  url?: string
+  title?: string
+  hostname?: string
+  referrer?: string
+  width?: number
+  height?: number
+  disabledPageView?: boolean
+}
+
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+export type Track = (name: string, data?: any) => void
+
+const useUmami: (options: UmamiOptions) => Track = ({
+  url,
+  title,
+  hostname,
+  referrer,
+  width,
+  height,
+  disabledPageView,
+}): Track => {
+  const payload = useMemo<UmamiBasePayload>(() => {
     return {
       hostname: hostname ?? window.location.hostname,
       language: window.navigator.language,
@@ -68,44 +63,43 @@ const useUmami = (
       url: url,
       website: websiteId,
     }
-  }, [websiteId, url, title, hostname, referrer, width, height]);
+  }, [websiteId, url, title, hostname, referrer, width, height])
 
-  if( !disabledPageView && !disableAll ) {
-    post({...payload});
+  if (umamiUrl && websiteId && !disabledPageView) {
+    post({ ...payload })
   }
 
+  /* eslint-disable  @typescript-eslint/no-explicit-any */
   const track = (name: string, data?: any) => {
-    if( !disableAll ) {
+    if (umamiUrl && websiteId) {
       post({
         ...payload,
         name,
-        data
-      });
+        data,
+      })
     }
   }
-  
-  return track;
+
+  return track
 }
 
-const post = (
-  payload: UmamiPayload
-) => {
+const post = (payload: UmamiPayload) => {
   const headers = {
     'Content-Type': 'application/json',
-  };
+  }
 
   const body: UmamiBody = {
     type: 'event',
-    payload
-  };
+    payload,
+  }
 
   return fetch(umamiUrl, {
     method: 'POST',
     body: JSON.stringify(body),
     headers,
   })
-    .then(res => res.text())
-    .then(text => console.log(text));
+    .then((res) => res.text())
+    .then((text) => console.log(text))
 }
 
-export default useUmami;
+export default useUmami
