@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 
 type UmamiBasePayload = {
   hostname: string
@@ -65,9 +65,11 @@ const useUmami: (options: UmamiOptions) => Track = ({
     }
   }, [websiteId, url, title, hostname, referrer, width, height])
 
-  if (umamiUrl && websiteId && !disabledPageView) {
-    post({ ...payload })
-  }
+  useEffect(() => {
+    if (umamiUrl && websiteId && !disabledPageView) {
+      post({ ...payload })
+    }
+  }, [])
 
   /* eslint-disable  @typescript-eslint/no-explicit-any */
   const track = (name: string, data?: any) => {
