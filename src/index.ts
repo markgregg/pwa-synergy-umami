@@ -85,6 +85,28 @@ const useUmami: (options: UmamiOptions) => Track = ({
   return track
 }
 
+export const trackPage: (options: UmamiOptions) => void = ({
+  url,
+  title,
+  hostname,
+  referrer,
+  width,
+  height,
+}) => {
+  if (umamiUrl && websiteId) {
+    const payload: UmamiPayload = {
+      hostname: hostname ?? window.location.hostname,
+      language: window.navigator.language,
+      referrer: referrer ?? document.referrer,
+      screen: `${width ?? window.innerWidth}x${height ?? window.innerHeight}`,
+      title: title ?? document.title,
+      url: url,
+      website: websiteId,
+    }
+    post({ ...payload })
+  }
+}
+
 const post = (payload: UmamiPayload) => {
   const headers = {
     'Content-Type': 'application/json',
