@@ -121,9 +121,7 @@ const post = (payload: UmamiPayload) => {
     method: 'POST',
     body: JSON.stringify(body),
     headers,
-  })
-    .then((res) => res.text())
-    .then((text) => console.log(text))
+  }).then((res) => res.text())
 }
 
 export default useUmami
